@@ -11,8 +11,7 @@ Student No: 1010037498
 Assignment Augmented: A6
 
 Instructions:
-Please create a build directory, use make and build the solution file. 
-Please use this command in bash ./shaderpipeline ../data/test-08.json
+Please use this command in bash when in the build folder ./shaderpipeline ../data/test-08.json
 
 Description:
 Implemented a new colour scheme. 
