@@ -1,0 +1,53 @@
+// Hint: Crib from your model_view_projection.vs
+// Layout:
+//                                         Indicate that we're dealing with
+//                                         triangles in CCW order and using a
+//                                         sane spacing.
+layout(triangles, equal_spacing, ccw) in;
+// Uniforms
+uniform mat4 view;
+uniform mat4 proj;
+uniform float animation_seconds;
+uniform bool is_moon;
+// Inputs:
+//                    array of 3 3D patch corner positions
+in vec4 pos_es_in[];
+// Outputs:
+//                   projected, view, and model transformed 3D position
+out vec4 pos_fs_in;
+//                        view and model transformed 3D position
+out vec4 view_pos_fs_in;
+//                      view and model transformed 3D normal
+out vec3 normal_fs_in;
+//                      3D position _before_ applying model, view or projection
+//                      transformations (e.g., point on unit sphere)
+out vec3 sphere_fs_in;
+// expects: interpolat, model, 
+void main()
+{
+  
+  vec4 object_pos = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]); // is view included in eye space? i multiplied with view anyway, but asking.
+  vec3 sphere = normalize(object_pos.xyz);
+  vec4 sphere_expd = vec4(sphere, 1.0);
+  
+  vec3 sphere_norm = normalize(sphere);
+  vec4 sphere_norm_expd = vec4(sphere_norm, 0.0);
+
+
+  mat4 moon = model(is_moon, animation_seconds);
+  // mat4 model = proj * view * moon * sphere_expd;
+  // mat4 model_view = view * moon * sphere_expd;
+
+  vec4 norm_model_view = view * moon * sphere_norm_expd;
+  normal_fs_in = normalize(norm_model_view.xyz);
+
+  pos_fs_in = proj * view * moon * sphere_expd;;
+  view_pos_fs_in = view * moon * sphere_expd;
+  sphere_fs_in = normalize(object_pos.xyz);
+
+  gl_Position = pos_fs_in;
+  
+
+}
+
+
