@@ -3,8 +3,11 @@
 Title: Saturn Simulation
 
 Full Name: Harpuneet Singh
+
 UTORid: sing2471
+
 Student No: 1010037498
+
 Assignment Augmented: A6
 
 Instructions:
